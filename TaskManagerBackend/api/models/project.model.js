@@ -5,7 +5,7 @@ var projectSchema = new Schema({
     project: { type: String, required: true },
     startDate: { type: Date, default: Date.now },
     endDate: { type: Date, default: +new Date() + 24 * 60 * 60 * 1000 },
-    priority: { type: Number, min: 0, max: 10, required: true },
+    priority: { type: Number, min: 0, max: 30, required: true },
     manager: { type: Schema.Types.ObjectId, ref: 'User', default: null },
     parentTasks: [{
         parentTask: { type: String, required: true },
@@ -13,7 +13,7 @@ var projectSchema = new Schema({
             task: { type: String, required: true },
             startDate: { type: Date, default: Date.now },
             endDate: { type: Date, default: +new Date() + 24 * 60 * 60 * 1000 },
-            priority: { type: Number, min: 0, max: 10, required: true },
+            priority: { type: Number, min: 0, max: 30, required: true },
             status: { type: String, enum: ['Unbegun', 'InProgress', 'Complete'], required: true },
             user: { type: Schema.Types.ObjectId, ref: 'User', default: null },
         }],

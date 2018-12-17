@@ -4,3 +4,46 @@
     <input type="text" id="project-name" class="form-control mx-sm-3" aria-describedby="ProjectName">
   </div>
 </form>
+<form class="form-inline">
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Set Start and End Date:</label>
+    <input type="text" id="start-date" class="form-control mx-sm-3" aria-describedby="startDate" placeholder="Start Date">
+    <input type="text" id="end-date" class="form-control mx-sm-3" aria-describedby="endDate" placeholder="End Date">
+  </div>
+</form>
+<form class="form-inline">
+  <div class="form-group">
+    <label for="priority">Priority:</label>
+    <input type="range" class="custom-range" min="0" max="30" step="1" id="priority">
+  </div>
+</form>
+<br>
+<form class="form-inline">
+  <div class="form-group">
+    <label for="manager">Manager:</label>
+    <input type="text" id="manager" class="form-control mx-sm-3" aria-describedby="ManagerName">
+    <button type="button" class="btn btn-info">Search</button>
+  </div>
+</form>
+<br>
+<div>
+  <button type="button" class="btn btn-primary">Add</button>
+  &nbsp;
+  <button type="button" class="btn btn-dark">Reset</button>
+</div>
+
+<div class="dropdown-divider"></div>
+
+<form>
+  <div class="form-group">
+    <input type="search" class="form-control" id="search" aria-describedby="searchInput" placeholder="Search...">
+  </div>
+</form>
+<div>
+  Sort By:
+  <button type="button" class="btn btn-secondary">Start Date</button>&nbsp;
+  <button type="button" class="btn btn-secondary">End Date</button>&nbsp;
+  <button type="button" class="btn btn-secondary">Priority</button>&nbsp;
+  <button type="button" class="btn btn-secondary">Completed</button>&nbsp;
+</div>
