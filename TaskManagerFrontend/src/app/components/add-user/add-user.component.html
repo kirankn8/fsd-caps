@@ -1,38 +1,60 @@
-<form class="form-inline">
-  <div class="form-group">
-    <label for="first-name">First Name:</label>
-    <input type="text" id="first-name" class="form-control mx-sm-3" aria-describedby="FirstName">
+<form [formGroup]="userForm" (ngSubmit)="addUserToList()">
+  <div class="div-inline">
+    <div class="div-group">
+      <label for="first-name">First Name:</label>
+      <input formControlName="firstName" type="text" id="first-name" class="div-control mx-sm-3" aria-describedby="FirstName">
+    </div>
+  </div>
+  <div class="div-inline">
+    <div class="div-group">
+      <label for="last-name">Last Name:</label>
+      <input formControlName="lastName" type="text" id="last-name" class="div-control mx-sm-3" aria-describedby="LastName">
+    </div>
+  </div>
+  <div class="div-inline">
+    <div class="div-group">
+      <label for="employee-id">Employee ID:</label>
+      <input formControlName="employeeId" type="text" id="employee-id" class="div-control mx-sm-3" aria-describedby="EmployeeID">
+    </div>
+  </div>
+  {{userForm.value | json}}{{userForm.status}}
+  <br>
+  <div>
+    <button type="submit" class="btn btn-primary">Add</button>
+    &nbsp;
+    <button type="button" class="btn btn-dark" (click)="resetUserForm()">Reset</button>
   </div>
 </form>
-<form class="form-inline">
-  <div class="form-group">
-    <label for="last-name">Last Name:</label>
-    <input type="text" id="last-name" class="form-control mx-sm-3" aria-describedby="LastName">
-  </div>
-</form>
-<form class="form-inline">
-  <div class="form-group">
-    <label for="employee-id">Employee ID:</label>
-    <input type="text" id="employee-id" class="form-control mx-sm-3" aria-describedby="EmployeeID">
-  </div>
-</form>
-<br>
-<div>
-  <button type="button" class="btn btn-primary">Add</button>
-  &nbsp;
-  <button type="button" class="btn btn-dark">Reset</button>
-</div>
 <div class="dropdown-divider"></div>
 
-<form class="form-inline">
-  <div class="form-group">
-    <input type="text" id="search" class="form-control mx-sm-3" aria-describedby="Search" placeholder="Search...">
+<div class="div-inline">
+  <div class="div-group">
+    <input type="text" id="search" [(ngModel)]="searchValue" class="div-control mx-sm-3" aria-describedby="Search"
+      placeholder="Search...">
   </div>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <div>
     Sort:
-    <button type="button" class="btn btn-secondary">First Name</button>&nbsp;
-    <button type="button" class="btn btn-secondary">Last Name</button>&nbsp;
-    <button type="button" class="btn btn-secondary">Id</button>&nbsp;
+    <button type="button" class="btn btn-secondary" (click)="onClickSort('firstName')">First Name</button>&nbsp;
+    <button type="button" class="btn btn-secondary" (click)="onClickSort('lastName')">Last Name</button>&nbsp;
+    <button type="button" class="btn btn-secondary" (click)="onClickSort('employeeId')">Id</button>&nbsp;
   </div>
-</form>
+</div>
+<hr class="dotted-hr" />
+<div *ngFor="let user of userList | search:searchValue: sortBy">
+  <div class="row">
+    <div class="col-8">
+      <ul class="list-group">
+        <li class="list-group-item">First Name: {{user.firstName}}</li>
+        <li class="list-group-item">Last Name: {{user.lastName}}</li>
+        <li class="list-group-item">Employee Id: {{user.employeeId}}</li>
+      </ul>
+    </div>
+    <div class="col-4">
+      <button type="button" class="btn btn-secondary user-btn">Edit</button>
+      <br><br>
+      <button type="button" class="btn btn-secondary user-btn" (click)="deleteUserFromList(user._id)">Delete</button>
+    </div>
+  </div>
+  <hr class="dotted-hr" />
+</div>

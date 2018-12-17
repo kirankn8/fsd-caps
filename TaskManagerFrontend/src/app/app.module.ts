@@ -7,6 +7,10 @@ import { AddProjectComponent } from './components/add-project/add-project.compon
 import { AddTaskComponent } from './components/add-task/add-task.component';
 import { AddUserComponent } from './components/add-user/add-user.component';
 import { ViewTaskComponent } from './components/view-task/view-task.component';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { SearchPipe } from './pipes/search.pipe';
 
 @NgModule({
   declarations: [
@@ -14,10 +18,14 @@ import { ViewTaskComponent } from './components/view-task/view-task.component';
     AddProjectComponent,
     AddTaskComponent,
     AddUserComponent,
-    ViewTaskComponent
+    ViewTaskComponent,
+    SearchPipe
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
     AppRoutingModule
   ],
   providers: [],

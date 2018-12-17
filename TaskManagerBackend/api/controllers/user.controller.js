@@ -1,8 +1,8 @@
-const userSchema = require('../models/user.schema');
+const userSchema = require('../models/user.model');
 
 exports.list_users = function (req, res) {
-    userSchema.find({}, function (err, docs) {
-        res.json(docs);
+    userSchema.find({}, function (err, users) {
+        res.json(users);
     })
 }
 
@@ -15,9 +15,9 @@ exports.get_user = function (req, res) {
 
 exports.save_user = function (req, res) {
     var userInstance = new userSchema(req.body);
-    userInstance.save(function (err, docs) {
+    userInstance.save(function (err, user) {
         if (err) res.json(err);
-        res.json(docs);
+        res.json(user);
     });
 }
 

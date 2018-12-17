@@ -36,10 +36,10 @@ app.use(cors({
 }));
 
 // Routes
-app.use('/', routes);
+app.use('/api', routes);
 
 app.listen(config.serverport, () => {
-    console.log('Task Mangaer Backend is listening on port: ' + config.serverport)
+    console.log('Task Manager Backend is listening on port: ' + config.serverport)
 });
 
 module.exports = app;
