@@ -14,7 +14,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SearchPipe } from './pipes/search.pipe';
 import { SelectDialogBoxComponent } from './components/select-dialog-box/select-dialog-box.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +22,7 @@ import { SelectDialogBoxComponent } from './components/select-dialog-box/select-
     AddUserComponent,
     ViewTaskComponent,
     SearchPipe,
-    SelectDialogBoxComponent
+    SelectDialogBoxComponent,
   ],
   imports: [
     BrowserModule,

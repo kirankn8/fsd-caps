@@ -8,7 +8,7 @@ exports.list_users = function (req, res) {
 
 exports.get_user = function (req, res) {
     userSchema.findById(req.params.id, function (err, docs) {
-        if (err) res.json(err);
+        if (err) console.log(err);
         res.json(docs);
     })
 }
@@ -16,14 +16,14 @@ exports.get_user = function (req, res) {
 exports.save_user = function (req, res) {
     var userInstance = new userSchema(req.body);
     userInstance.save(function (err, user) {
-        if (err) res.json(err);
+        if (err) console.log(err);
         res.json(user);
     });
 }
 
 exports.delete_user = function (req, res) {
     userSchema.findByIdAndDelete(req.params.id, function (err, user) {
-        if (err) res.json(err);
+        if (err) console.log(err);
         res.json(user);
     });
 }

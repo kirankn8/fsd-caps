@@ -1,20 +1,20 @@
 <form [formGroup]="userForm" (ngSubmit)="addUserToList()">
-  <div class="div-inline">
-    <div class="div-group">
+  <div class="form-inline">
+    <div class="form-group">
       <label for="first-name">First Name:</label>
-      <input formControlName="firstName" type="text" id="first-name" class="div-control mx-sm-3" aria-describedby="FirstName">
+      <input formControlName="firstName" type="text" id="first-name" class="form-control mx-sm-3" aria-describedby="FirstName">
     </div>
   </div>
-  <div class="div-inline">
-    <div class="div-group">
+  <div class="form-inline">
+    <div class="form-group">
       <label for="last-name">Last Name:</label>
-      <input formControlName="lastName" type="text" id="last-name" class="div-control mx-sm-3" aria-describedby="LastName">
+      <input formControlName="lastName" type="text" id="last-name" class="form-control mx-sm-3" aria-describedby="LastName">
     </div>
   </div>
-  <div class="div-inline">
-    <div class="div-group">
+  <div class="form-inline">
+    <div class="form-group">
       <label for="employee-id">Employee ID:</label>
-      <input formControlName="employeeId" type="text" id="employee-id" class="div-control mx-sm-3" aria-describedby="EmployeeID">
+      <input formControlName="employeeId" type="text" id="employee-id" class="form-control mx-sm-3" aria-describedby="EmployeeID">
     </div>
   </div>
   {{userForm.value | json}}{{userForm.status}}
@@ -27,9 +27,9 @@
 </form>
 <div class="dropdown-divider"></div>
 
-<div class="div-inline">
-  <div class="div-group">
-    <input type="text" id="search" [(ngModel)]="searchValue" class="div-control mx-sm-3" aria-describedby="Search"
+<div class="form-inline">
+  <div class="form-group">
+    <input type="text" id="search" [(ngModel)]="searchValue" class="form-control mx-sm-3" aria-describedby="Search"
       placeholder="Search...">
   </div>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -41,7 +41,7 @@
   </div>
 </div>
 <hr class="dotted-hr" />
-<div *ngFor="let user of userList | search:searchValue: sortBy">
+<div *ngFor="let user of userList | search:searchValue:sortBy">
   <div class="row">
     <div class="col-8">
       <ul class="list-group">

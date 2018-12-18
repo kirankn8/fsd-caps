@@ -20,8 +20,8 @@ export class SearchPipe implements PipeTransform {
     }
     if (key && tempList) {
       tempList.sort(function (a, b) {
-        const x = a[key].toLowerCase();
-        const y = b[key].toLowerCase();
+        const x = typeof a[key] === 'string' ? a[key].toLowerCase() : a[key];
+        const y = typeof b[key] === 'string' ? b[key].toLowerCase() : b[key];
         if (x < y) { return -1; }
         if (x > y) { return 1; }
         return 0;

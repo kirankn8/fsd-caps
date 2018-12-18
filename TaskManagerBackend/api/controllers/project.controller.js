@@ -8,7 +8,7 @@ exports.list_projects = function (req, res) {
 
 exports.get_project = function (req, res) {
     projectSchema.findById(req.params.id, function (err, docs) {
-        if (err) res.json(err);
+        if (err) console.log(err);
         res.json(docs);
     })
 }
@@ -16,14 +16,14 @@ exports.get_project = function (req, res) {
 exports.save_project = function (req, res) {
     var projectInstance = new projectSchema(req.body);
     projectInstance.save(function (err, docs) {
-        if (err) res.json(err);
+        if (err) console.log(err);
         res.json(docs);
     });
 }
 
 exports.delete_project = function (req, res) {
     projectSchema.findByIdAndDelete(req.params.id, function (err, project) {
-        if (err) res.json(err);
+        if (err) console.log(err);
         res.json(project);
     });
 }

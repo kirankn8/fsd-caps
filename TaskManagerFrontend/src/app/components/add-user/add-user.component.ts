@@ -50,7 +50,6 @@ export class AddUserComponent implements OnInit {
     });
   }
 
-
   deleteUserFromList(id) {
     this.addUserService.deleteUser(id).subscribe(users => {
       this.getUserList();

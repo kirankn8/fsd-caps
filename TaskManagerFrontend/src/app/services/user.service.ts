@@ -13,18 +13,18 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getUsers() {
-    return this.http.get<any>('http://localhost:3000/api/users');
+    return this.http.get<any>('/api/users');
   }
 
   addUser(userObj) {
-    return this.http.post<any>('http://localhost:3000/api/user', userObj, httpOptions);
+    return this.http.post<any>('/api/user', userObj, httpOptions);
   }
 
   editUser(id, userObj) {
-    return this.http.put<any>('http://localhost:3000/api/user/' + id, userObj, httpOptions);
+    return this.http.put<any>('/api/user/' + id, userObj, httpOptions);
   }
 
   deleteUser(id) {
-    return this.http.delete<any>('http://localhost:3000/api/user/' + id);
+    return this.http.delete<any>('/api/user/' + id);
   }
 }
