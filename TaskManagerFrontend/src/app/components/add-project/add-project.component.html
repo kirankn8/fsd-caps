@@ -15,7 +15,7 @@
 <form class="form-inline">
   <div class="form-group">
     <label for="priority">Priority:</label>
-    <input type="range" class="custom-range" min="0" max="30" step="1" id="priority">
+    <input type="range" class="custom-range" value="0" min="0" max="30" step="1" id="priority">
   </div>
 </form>
 <br>
@@ -23,7 +23,7 @@
   <div class="form-group">
     <label for="manager">Manager:</label>
     <input type="text" id="manager" class="form-control mx-sm-3" aria-describedby="ManagerName">
-    <button type="button" class="btn btn-info">Search</button>
+    <button type="button" class="btn btn-info" (click)="openManagerDialog()">Search</button>
   </div>
 </form>
 <br>

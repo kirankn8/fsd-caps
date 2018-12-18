@@ -8,7 +8,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class AddUserService {
+export class UserService {
 
   constructor(private http: HttpClient) { }
 

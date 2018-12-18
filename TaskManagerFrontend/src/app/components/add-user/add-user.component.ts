@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AddUserService } from 'src/app/services/add-user.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-add-user',
@@ -20,7 +20,7 @@ export class AddUserComponent implements OnInit {
   searchValue = '';
   sortBy = '';
 
-  constructor(private fb: FormBuilder, private addUserService: AddUserService) { }
+  constructor(private fb: FormBuilder, private addUserService: UserService) { }
 
   ngOnInit() {
     this.getUserList();

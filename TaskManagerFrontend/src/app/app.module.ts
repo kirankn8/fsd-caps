@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddProjectComponent } from './components/add-project/add-project.component';
@@ -10,7 +10,10 @@ import { ViewTaskComponent } from './components/view-task/view-task.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
 import { SearchPipe } from './pipes/search.pipe';
+import { SelectDialogBoxComponent } from './components/select-dialog-box/select-dialog-box.component';
+
 
 @NgModule({
   declarations: [
@@ -19,15 +22,19 @@ import { SearchPipe } from './pipes/search.pipe';
     AddTaskComponent,
     AddUserComponent,
     ViewTaskComponent,
-    SearchPipe
+    SearchPipe,
+    SelectDialogBoxComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatDialogModule,
   ],
+  entryComponents: [SelectDialogBoxComponent, AddProjectComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -11,6 +11,7 @@ export class SearchPipe implements PipeTransform {
       searchText = searchText.trim().toLowerCase();
       tempList = valueList.filter(it => {
         for (const prop of Object.keys(it)) {
+          if (prop === '_id') { continue; }
           if (typeof it[prop] === 'string' &&
             it[prop].toLowerCase().includes(searchText)) { return true; }
         }
