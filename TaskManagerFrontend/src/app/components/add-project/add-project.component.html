@@ -25,8 +25,8 @@
   <div class="form-inline">
     <div class="form-group">
       <label for="manager">Manager:</label>
-      <input type="text" formControlName="manager" id="manager" class="form-control mx-sm-3" aria-describedby="ManagerName"
-        readonly>
+      <input type="text" formControlName="manager" id="manager" class="form-control mx-sm-3" (click)="openManagerDialog()"
+        aria-describedby="ManagerName" readonly>
       <button type="button" class="btn btn-info" (click)="openManagerDialog()">Search</button>
     </div>
   </div>
@@ -34,7 +34,7 @@
   <div>
     <button type="submit" class="btn btn-primary">Add</button>
     &nbsp;
-    <button type="button" class="btn btn-dark">Reset</button>
+    <button type="button" class="btn btn-dark" (click)="resetProjectForm()">Reset</button>
   </div>
 </form>
 {{projectForm.value | json}}

@@ -85,8 +85,8 @@ export class AddProjectComponent implements OnInit {
     const projObj = {
       project: this.projectForm.value.project,
       defaultDate: this.projectForm.value.defaultDate,
-      startDate: this.projectForm.value.startDate,
-      endDate: this.projectForm.value.endDate,
+      startDate: this.projectForm.value.startDate ? this.projectForm.value.startDate : new Date().getDate(),
+      endDate: this.projectForm.value.endDate ? this.projectForm.value.endDate : new Date().getDate() + 1,
       priority: this.projectForm.value.priority,
       manager: this.selectedManager._id,
     };

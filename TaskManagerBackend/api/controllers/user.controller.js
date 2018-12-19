@@ -3,14 +3,14 @@ const userSchema = require('../models/user.model');
 exports.list_users = function (req, res) {
     userSchema.find({}, function (err, users) {
         res.json(users);
-    })
+    });
 }
 
 exports.get_user = function (req, res) {
     userSchema.findById(req.params.id, function (err, docs) {
         if (err) console.log(err);
         res.json(docs);
-    })
+    });
 }
 
 exports.save_user = function (req, res) {

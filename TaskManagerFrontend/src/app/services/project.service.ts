@@ -28,4 +28,12 @@ export class ProjectService {
   deleteProject(id) {
     return this.http.delete<any>('/api/project/' + id);
   }
+
+  addParentTask(id, parentTaskObj) {
+    return this.http.post<any>(`/api/project/${id}/task`, parentTaskObj, httpOptions);
+  }
+
+  addChildToParentTask(id, parentTaskId, childTaskObj) {
+    return this.http.post<any>(`/api/project/${id}/task/${parentTaskId}`, childTaskObj, httpOptions);
+  }
 }

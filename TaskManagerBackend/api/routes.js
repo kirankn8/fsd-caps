@@ -3,6 +3,7 @@ const router = express.Router();
 
 const user = require('./controllers/user.controller');
 const project = require('./controllers/project.controller');
+const task = require('./controllers/task.controller');
 
 router.get('/', (req, res) => {
     res.send('The app is up and running!');
@@ -25,5 +26,11 @@ router.post('/project', project.save_project);
 router.get('/project/:id', project.get_project);
 
 router.delete('/project/:id', project.delete_project);
+
+// Task routes 
+router.post('/project/:id/task', task.set_project_parenttask);
+
+router.post('/project/:id/task/:parentTaskId', task.set_project_parent_childtask);
+
 
 module.exports = router

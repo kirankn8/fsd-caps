@@ -20,20 +20,20 @@ export class AddUserComponent implements OnInit {
   searchValue = '';
   sortBy = '';
 
-  constructor(private fb: FormBuilder, private addUserService: UserService) { }
+  constructor(private fb: FormBuilder, private userService: UserService) { }
 
   ngOnInit() {
     this.getUserList();
   }
 
   getUserList() {
-    this.addUserService.getUsers().subscribe(users => {
+    this.userService.getUsers().subscribe(users => {
       this.userList = users;
     });
   }
 
   addUserToList() {
-    this.addUserService.addUser(this.userForm.value).subscribe(users => {
+    this.userService.addUser(this.userForm.value).subscribe(users => {
       if (users) {
         this.resetUserForm();
         this.getUserList();
@@ -42,7 +42,7 @@ export class AddUserComponent implements OnInit {
   }
 
   editUserInList() {
-    this.addUserService.addUser(this.userForm.value).subscribe(users => {
+    this.userService.addUser(this.userForm.value).subscribe(users => {
       if (users) {
         this.resetUserForm();
         this.getUserList();
@@ -51,7 +51,7 @@ export class AddUserComponent implements OnInit {
   }
 
   deleteUserFromList(id) {
-    this.addUserService.deleteUser(id).subscribe(users => {
+    this.userService.deleteUser(id).subscribe(users => {
       this.getUserList();
     });
   }
