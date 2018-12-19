@@ -109,8 +109,6 @@ export class AddTaskComponent implements OnInit {
         this.taskForm.patchValue({
           project: result.project,
         });
-      } else {
-        this.selectedProject = null;
       }
     });
   }
@@ -129,8 +127,6 @@ export class AddTaskComponent implements OnInit {
           this.taskForm.patchValue({
             parentTask: result.parentTask,
           });
-        } else {
-          this.selectedParentTask = null;
         }
       });
     } else {
@@ -153,6 +149,9 @@ export class AddTaskComponent implements OnInit {
         });
       } else {
         this.selectedUser = null;
+        this.taskForm.patchValue({
+          user: null,
+        });
       }
     });
   }
