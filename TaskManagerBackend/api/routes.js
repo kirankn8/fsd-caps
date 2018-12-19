@@ -16,6 +16,8 @@ router.post('/user', user.save_user);
 
 router.get('/user/:id', user.get_user);
 
+router.put('/user/:id', user.update_user);
+
 router.delete('/user/:id', user.delete_user);
 
 // Project routes

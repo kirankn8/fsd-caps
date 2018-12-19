@@ -21,6 +21,15 @@ exports.save_user = function (req, res) {
     });
 }
 
+exports.update_user = function (req, res) {
+    userSchema.findByIdAndUpdate(req.params.id, req.body, { new: true },
+        (err, user) => {
+            if (err) console.log(err);
+            return res.json(user);
+        }
+    );
+}
+
 exports.delete_user = function (req, res) {
     userSchema.findByIdAndDelete(req.params.id, function (err, user) {
         if (err) console.log(err);

@@ -82,7 +82,7 @@ export class AddTaskComponent implements OnInit {
       parentTask: this.taskForm.value.task,
     };
     this.projectService.addParentTask(projectId, parentTaskObj)
-      .subscribe(res => console.log(res));
+      .subscribe(res => this.resetTaskForm());
   }
 
   addTaskAsChild() {
@@ -91,9 +91,12 @@ export class AddTaskComponent implements OnInit {
     const childTaskObj = {
       task: this.taskForm.value.task,
       priority: this.taskForm.value.priority,
+      startDate: this.taskForm.value.startDate,
+      endDate: this.taskForm.value.endDate,
+      user: this.selectedUser._id,
     };
     this.projectService.addChildToParentTask(projectId, parentTaskId, childTaskObj)
-      .subscribe(res => console.log(res));
+      .subscribe(res => this.resetTaskForm());
   }
 
   openProjectDialog() {

@@ -19,6 +19,8 @@ export class AddUserComponent implements OnInit {
   userList;
   searchValue = '';
   sortBy = '';
+  isEditMode = false;
+  editObj: any;
 
   constructor(private fb: FormBuilder, private userService: UserService) { }
 
@@ -37,15 +39,17 @@ export class AddUserComponent implements OnInit {
       if (users) {
         this.resetUserForm();
         this.getUserList();
+        alert('User added successfully');
       }
     });
   }
 
   editUserInList() {
-    this.userService.addUser(this.userForm.value).subscribe(users => {
+    this.userService.editUser(this.editObj._id, this.userForm.value).subscribe(users => {
       if (users) {
         this.resetUserForm();
         this.getUserList();
+        alert('User updated successfully');
       }
     });
   }
@@ -62,6 +66,8 @@ export class AddUserComponent implements OnInit {
       lastName: '',
       employeeId: '',
     });
+    this.isEditMode = false;
+    this.editObj = null;
   }
 
   onClickSort(key) {
@@ -70,5 +76,15 @@ export class AddUserComponent implements OnInit {
     } else {
       this.sortBy = key;
     }
+  }
+
+  enableUserEdit(user) {
+    this.userForm.setValue({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      employeeId: user.employeeId,
+    });
+    this.isEditMode = true;
+    this.editObj = user;
   }
 }

@@ -1,7 +1,6 @@
 const projectSchema = require('../models/project.model');
 
 exports.set_project_parenttask = function (req, res) {
-    console.log('Set Parent Task', req.params.id);
     projectSchema.findByIdAndUpdate(req.params.id, { $push: { parentTasks: req.body } }
         , function (err, proj) {
             if (err) console.log(err);

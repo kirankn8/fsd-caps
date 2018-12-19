@@ -61,8 +61,6 @@ export class AddProjectComponent implements OnInit {
         this.projectForm.patchValue({
           manager: result.firstName,
         });
-      } else {
-        this.selectedManager = null;
       }
     });
   }
