@@ -17,7 +17,6 @@ db.once('open', function () {
     console.log('MongoDB connection succesfully established')
 });
 
-
 //  Middlewares
 app.use(session({
     key: 'e_session_cookie',

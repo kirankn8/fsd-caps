@@ -2,6 +2,7 @@ const userSchema = require('../models/user.model');
 
 exports.list_users = function (req, res) {
     userSchema.find({}, function (err, users) {
+        if (err) console.log(err);
         res.json(users);
     });
 }

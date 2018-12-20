@@ -8,6 +8,21 @@ exports.set_project_parenttask = function (req, res) {
         });
 }
 
+exports.update_project_parenttask = function (req, res) {
+    projectSchema.update(
+        { "_id": req.params.id, "parentTasks._id": req.params.parentTaskId },
+        {
+            "$set": {
+                "parentTasks.$.parentTask": req.body.parentTask,
+            }
+        },
+        function (err, docs) {
+            if (err) console.log(err);
+            res.json(docs);
+        }
+    );
+}
+
 exports.set_project_parent_childtask = function (req, res) {
     projectSchema.update(
         { "_id": req.params.id, "parentTasks._id": req.params.parentTaskId },

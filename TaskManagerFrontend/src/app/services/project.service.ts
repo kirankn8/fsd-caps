@@ -33,7 +33,15 @@ export class ProjectService {
     return this.http.post<any>(`/api/project/${id}/task`, parentTaskObj, httpOptions);
   }
 
+  editParentTask(id, parentTaskId, parentTaskObj) {
+    return this.http.put<any>(`/api/project/${id}/task/${parentTaskId}`, parentTaskObj, httpOptions);
+  }
+
   addChildToParentTask(id, parentTaskId, childTaskObj) {
     return this.http.post<any>(`/api/project/${id}/task/${parentTaskId}`, childTaskObj, httpOptions);
+  }
+
+  editChildOfParentTask(id, parentTaskId, childTaskId, childTaskObj) {
+    return this.http.post<any>(`/api/project/${id}/task/${parentTaskId}/child/${childTaskId}`, childTaskObj, httpOptions);
   }
 }

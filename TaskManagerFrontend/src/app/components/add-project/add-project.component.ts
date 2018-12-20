@@ -4,11 +4,13 @@ import { MatDialog } from '@angular/material';
 import { UserService } from 'src/app/services/user.service';
 import { Validators, FormBuilder } from '@angular/forms';
 import { ProjectService } from 'src/app/services/project.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-project',
   templateUrl: './add-project.component.html',
-  styleUrls: ['./add-project.component.css']
+  styleUrls: ['./add-project.component.css'],
+  providers: [DatePipe]
 })
 export class AddProjectComponent implements OnInit {
 
@@ -17,6 +19,8 @@ export class AddProjectComponent implements OnInit {
   selectedManager: any;
   sortBy: string;
   searchValue: string;
+  isEditMode = false;
+  editObj: any;
 
   projectForm = this.fb.group(
     {
@@ -30,7 +34,7 @@ export class AddProjectComponent implements OnInit {
   );
 
   constructor(public dialog: MatDialog, private userService: UserService,
-    private fb: FormBuilder, private projectService: ProjectService) { }
+    private fb: FormBuilder, private projectService: ProjectService, public datepipe: DatePipe) { }
 
   ngOnInit() {
     this.userList = this.userService.getUsers().subscribe(users => this.userList = users);
@@ -94,6 +98,21 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
+  editProject() {
+    const projObj = {
+      project: this.projectForm.value.project,
+      defaultDate: this.projectForm.value.defaultDate,
+      startDate: this.projectForm.value.startDate ? this.projectForm.value.startDate : new Date().getDate(),
+      endDate: this.projectForm.value.endDate ? this.projectForm.value.endDate : new Date().getDate() + 1,
+      priority: this.projectForm.value.priority,
+      manager: this.selectedManager._id,
+    };
+    this.projectService.editProject(this.editObj._id, projObj).subscribe(project => {
+      this.getProjectList();
+      this.resetProjectForm();
+    });
+  }
+
   resetProjectForm() {
     this.projectForm.setValue({
       project: '',
@@ -103,6 +122,9 @@ export class AddProjectComponent implements OnInit {
       priority: 0,
       manager: '',
     });
+    this.selectedManager = null;
+    this.isEditMode = false;
+    this.editObj = null;
     this.disableDateFields();
   }
 
@@ -118,5 +140,20 @@ export class AddProjectComponent implements OnInit {
     this.projectService.deleteProject(id).subscribe(proj => {
       this.getProjectList();
     });
+  }
+
+  enableProjectEdit(project) {
+    this.projectForm.setValue({
+      project: project.project,
+      defaultDate: true,
+      startDate: this.datepipe.transform(project.startDate, 'yyyy-MM-dd'),
+      endDate: this.datepipe.transform(project.endDate, 'yyyy-MM-dd'),
+      priority: project.priority,
+      manager: project.manager.firstName,
+    });
+    this.isEditMode = true;
+    this.editObj = project;
+    this.enableDateFields();
+    this.selectedManager = project.manager;
   }
 }

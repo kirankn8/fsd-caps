@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SearchPipe } from './pipes/search.pipe';
 import { SelectDialogBoxComponent } from './components/select-dialog-box/select-dialog-box.component';
+import { EditTaskComponent } from './components/edit-task/edit-task.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { SelectDialogBoxComponent } from './components/select-dialog-box/select-
     ViewTaskComponent,
     SearchPipe,
     SelectDialogBoxComponent,
+    EditTaskComponent,
   ],
   imports: [
     BrowserModule,
