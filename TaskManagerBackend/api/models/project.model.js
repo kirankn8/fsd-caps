@@ -14,7 +14,7 @@ var projectSchema = new Schema({
             startDate: { type: Date, default: Date.now },
             endDate: { type: Date, default: +new Date() + 24 * 60 * 60 * 1000 },
             priority: { type: Number, min: 0, max: 30, required: true },
-            status: { type: String, enum: ['Unbegun', 'InProgress', 'Complete'] },
+            status: { type: String, enum: ['Start', 'Complete'], default: 'Start' },
             user: { type: Schema.Types.ObjectId, ref: 'User', default: null },
         }],
     }],
