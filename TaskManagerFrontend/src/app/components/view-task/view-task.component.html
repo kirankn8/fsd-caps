@@ -46,7 +46,7 @@
       <td>-</td>
       <td>-</td>
       <td>-</td>
-      <td><button type="button" class="btn btn-primary">Edit</button></td>
+      <td><button type="button" class="btn btn-primary" (click)="taskEdit(parentTask)">Edit</button></td>
       <td><button type="button" class="btn btn-primary">End Task</button></td>
     </tr>
     <ng-container *ngFor="let childTask of parentTask?.childTasks | search:'':sortBy">
@@ -77,7 +77,7 @@
         <td>{{childTask.priority}}</td>
         <td>{{childTask.startDate | date:'shortDate'}}</td>
         <td>{{childTask.endDate | date:'shortDate'}}</td>
-        <td><button type="button" class="btn btn-primary">Edit</button></td>
+        <td><button type="button" class="btn btn-primary" (click)="taskEdit(parentTask, childTask)">Edit</button></td>
         <td><button type="button" class="btn btn-primary">End Task</button></td>
       </tr>
     </ng-container>

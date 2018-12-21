@@ -14,6 +14,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SearchPipe } from './pipes/search.pipe';
 import { SelectDialogBoxComponent } from './components/select-dialog-box/select-dialog-box.component';
 import { EditTaskComponent } from './components/edit-task/edit-task.component';
+import { DatePipe } from '@angular/common';
+import { ExceptionPipe } from './pipes/exception.pipe';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { EditTaskComponent } from './components/edit-task/edit-task.component';
     SearchPipe,
     SelectDialogBoxComponent,
     EditTaskComponent,
+    ExceptionPipe,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,7 @@ import { EditTaskComponent } from './components/edit-task/edit-task.component';
     MatDialogModule,
   ],
   entryComponents: [SelectDialogBoxComponent, AddProjectComponent],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

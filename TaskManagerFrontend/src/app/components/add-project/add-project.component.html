@@ -1,10 +1,11 @@
-<form [formGroup]="projectForm" (ngSubmit)="isEditMode? editProject():addProject()">
+<form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
   <div class="form-inline">
     <div class="form-group">
       <label for="project-name">Project:</label>
       <input type="text" formControlName="project" id="project-name" class="form-control mx-sm-3" aria-describedby="ProjectName">
     </div>
   </div>
+  <br>
   <div class="form-inline">
     <div class="form-group form-check">
       <input type="checkbox" formControlName="defaultDate" class="form-check-input" id="date-checkbox" (ngModelChange)="onSelectionChange($event)">
@@ -37,7 +38,7 @@
     <button type="button" class="btn btn-dark" (click)="resetProjectForm()">Reset</button>
   </div>
 </form>
-{{projectForm.value | json}}
+
 <div class="dropdown-divider"></div>
 
 <div>

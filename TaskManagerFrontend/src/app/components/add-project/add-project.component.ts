@@ -10,7 +10,6 @@ import { DatePipe } from '@angular/common';
   selector: 'app-add-project',
   templateUrl: './add-project.component.html',
   styleUrls: ['./add-project.component.css'],
-  providers: [DatePipe]
 })
 export class AddProjectComponent implements OnInit {
 
@@ -24,12 +23,12 @@ export class AddProjectComponent implements OnInit {
 
   projectForm = this.fb.group(
     {
-      project: '',
+      project: ['', Validators.required],
       defaultDate: [false],
-      startDate: [''],
-      endDate: [''],
+      startDate: [null],
+      endDate: [null],
       priority: [0, Validators.required],
-      manager: '',
+      manager: ['', Validators.required],
     }
   );
 
@@ -69,6 +68,19 @@ export class AddProjectComponent implements OnInit {
     });
   }
 
+  onSubmit() {
+    const isDD = this.projectForm.value.defaultDate;
+    const sD = this.projectForm.value.startDate;
+    const eD = this.projectForm.value.endDate;
+    if (this.projectForm.status === 'INVALID') {
+      alert('Please fill all the fields');
+    } else if (isDD === true && sD === null && eD === null) {
+      alert('Please set Start Date and End Date');
+    } else {
+      this.isEditMode ? this.editProject() : this.addProject();
+    }
+  }
+
   onSelectionChange() {
     if (!this.projectForm.value.defaultDate) {
       this.disableDateFields();
@@ -93,6 +105,7 @@ export class AddProjectComponent implements OnInit {
       manager: this.selectedManager._id,
     };
     this.projectService.addProject(projObj).subscribe(project => {
+      alert('Project added successfully');
       this.getProjectList();
       this.resetProjectForm();
     });
@@ -108,6 +121,7 @@ export class AddProjectComponent implements OnInit {
       manager: this.selectedManager._id,
     };
     this.projectService.editProject(this.editObj._id, projObj).subscribe(project => {
+      alert('Project updated successfully');
       this.getProjectList();
       this.resetProjectForm();
     });

@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="list-group">
-    <ng-container *ngFor="let listItem of info.genericList | search:searchValue">
+    <ng-container *ngFor="let listItem of info.genericList | search:searchValue | exceptionId: info.exceptionIdList">
       <button class="list-group-item list-group-item-action" type="button" [mat-dialog-close]="listItem">
         {{listItem[info.prop]}}</button>
     </ng-container>

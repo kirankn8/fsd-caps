@@ -17,6 +17,10 @@ export class ProjectService {
     return this.http.get<any>('/api/projects');
   }
 
+  getProjectById(Id) {
+    return this.http.get<any>('/api/project/' + Id);
+  }
+
   addProject(projectObj) {
     return this.http.post<any>('/api/project', projectObj, httpOptions);
   }
@@ -37,11 +41,19 @@ export class ProjectService {
     return this.http.put<any>(`/api/project/${id}/task/${parentTaskId}`, parentTaskObj, httpOptions);
   }
 
+  deleteParentTask(id, parentTaskId) {
+    return this.http.delete<any>(`/api/project/${id}/task/${parentTaskId}`);
+  }
+
   addChildToParentTask(id, parentTaskId, childTaskObj) {
     return this.http.post<any>(`/api/project/${id}/task/${parentTaskId}`, childTaskObj, httpOptions);
   }
 
   editChildOfParentTask(id, parentTaskId, childTaskId, childTaskObj) {
-    return this.http.post<any>(`/api/project/${id}/task/${parentTaskId}/child/${childTaskId}`, childTaskObj, httpOptions);
+    return this.http.put<any>(`/api/project/${id}/task/${parentTaskId}/child/${childTaskId}`, childTaskObj, httpOptions);
+  }
+
+  deleteChildOfParentTask(id, parentTaskId, childTaskId) {
+    return this.http.delete<any>(`/api/project/${id}/task/${parentTaskId}/child/${childTaskId}`);
   }
 }

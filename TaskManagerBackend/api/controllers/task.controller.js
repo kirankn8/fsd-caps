@@ -23,6 +23,19 @@ exports.update_project_parenttask = function (req, res) {
     );
 }
 
+exports.delete_project_parenttask = function (req, res) {
+    projectSchema.findById(req.params.id, function (err, proj) {
+        if (err) console.log(err);
+        console.log(req.params.id);
+        console.log(req.params.parentTaskId);
+        proj.parentTasks.id(req.params.parentTaskId).remove();
+        proj.save(function (err) {
+            if (err) console.log(err);
+            res.json(proj);
+        });
+    });
+}
+
 exports.set_project_parent_childtask = function (req, res) {
     projectSchema.update(
         { "_id": req.params.id, "parentTasks._id": req.params.parentTaskId },
@@ -41,16 +54,22 @@ exports.set_project_parent_childtask = function (req, res) {
 exports.update_project_parent_childtask = function (req, res) {
     projectSchema.findById(req.params.id, function (err, proj) {
         if (err) console.log(err);
-        proj.parentTasks.forEach(parentTask => {
-            if (parentTask._id === req.params.parentTaskId) {
-                parentTask.childTasks.forEach(childTask => {
-                    if (childTask._id === req.params.childTaskId) {
-                        childTask = req.body;
-                        proj.save();
-                    }
-                })
-            }
+        var childTask = proj.parentTasks.id(req.params.parentTaskId).childTasks.id(req.params.childTaskId);
+        childTask.set(req.body);
+        proj.save(function (err) {
+            if (err) console.log(err);
+            res.json(proj);
         });
-        res.json(proj);
+    });
+}
+
+exports.delete_project_parent_childtask = function (req, res) {
+    projectSchema.findById(req.params.id, function (err, proj) {
+        if (err) console.log(err);
+        proj.parentTasks.id(req.params.parentTaskId).childTasks.id(req.params.childTaskId).remove();
+        proj.save(function (err) {
+            if (err) console.log(err);
+            res.json(proj);
+        });
     });
 }

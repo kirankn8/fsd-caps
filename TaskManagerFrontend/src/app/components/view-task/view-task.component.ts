@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SelectDialogBoxComponent } from '../select-dialog-box/select-dialog-box.component';
 import { MatDialog } from '@angular/material';
 import { ProjectService } from 'src/app/services/project.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-task',
@@ -14,7 +15,7 @@ export class ViewTaskComponent implements OnInit {
   selectedProject: any;
   sortBy: string;
 
-  constructor(public dialog: MatDialog, private projectService: ProjectService) { }
+  constructor(public dialog: MatDialog, private projectService: ProjectService, public router: Router) { }
 
   ngOnInit() {
     this.getProjectList();
@@ -47,5 +48,16 @@ export class ViewTaskComponent implements OnInit {
         console.log(result);
       }
     });
+  }
+
+  taskEdit(parentTask, childTask?) {
+    const projectDetails = {
+      projectId: this.selectedProject._id,
+      projectName: this.selectedProject.project,
+      parentTask: parentTask,
+      childTask: childTask,
+    };
+    localStorage.setItem('taskToEdit', JSON.stringify(projectDetails));
+    this.router.navigate(['/edit-task']);
   }
 }

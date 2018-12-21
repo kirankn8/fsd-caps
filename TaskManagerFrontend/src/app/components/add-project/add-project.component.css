@@ -9,3 +9,13 @@
 .project-list {
     width: 100%;
 }
+
+label {
+    display: inline-block;
+    width: 200px;
+    text-align: left;
+}
+
+input:disabled {
+  cursor: no-drop;
+}

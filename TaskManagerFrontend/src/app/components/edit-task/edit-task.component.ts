@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material';
 import { UserService } from 'src/app/services/user.service';
 import { Validators, FormBuilder } from '@angular/forms';
 import { ProjectService } from 'src/app/services/project.service';
+import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-edit-task',
@@ -19,27 +21,61 @@ export class EditTaskComponent implements OnInit {
   selectedUser: any;
   sortBy: string;
   searchValue: string;
+  taskToEdit: any;
+  wasChild: boolean;
 
   taskForm = this.fb.group(
     {
-      project: ['', Validators.required],
-      task: ['', Validators.required],
+      project: this.taskToEdit,
+      task: this.taskToEdit,
       isParentTask: [false],
       priority: [0, Validators.required],
       parentTask: '',
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
+      startDate: this.taskToEdit,
+      endDate: this.taskToEdit,
       user: '',
     }
   );
 
   constructor(public dialog: MatDialog, private userService: UserService,
-    private fb: FormBuilder, private projectService: ProjectService) { }
+    private fb: FormBuilder, private projectService: ProjectService, public router: Router, public datepipe: DatePipe) { }
 
   ngOnInit() {
     this.getProjectList();
     this.getUserList();
-    this.enableFields();
+    setTimeout(() => {
+      this.taskToEdit = JSON.parse(localStorage.getItem('taskToEdit'));
+      if (this.taskToEdit) {
+        this.wasChild = this.taskToEdit.hasOwnProperty('childTask');
+        this.populateEditForm();
+      } else {
+        this.navigateBacktoViewTask();
+      }
+    }, 500);
+  }
+
+  populateEditForm() {
+    this.getProjectById(this.taskToEdit.projectId);
+    if (this.wasChild) {
+      this.enableFields();
+      this.taskForm.setValue({
+        project: this.taskToEdit.projectName,
+        task: this.taskToEdit.childTask.task,
+        isParentTask: false,
+        priority: this.taskToEdit.childTask.priority,
+        parentTask: this.taskToEdit.parentTask.parentTask,
+        startDate: this.datepipe.transform(this.taskToEdit.childTask.startDate, 'yyyy-MM-dd'),
+        endDate: this.datepipe.transform(this.taskToEdit.childTask.endDate, 'yyyy-MM-dd'),
+        user: null,
+      });
+    } else {
+      this.taskForm.patchValue({
+        project: this.taskToEdit.projectName,
+        task: this.taskToEdit.parentTask.parentTask,
+        isParentTask: true,
+      });
+      this.disableFields();
+    }
   }
 
   disableFields() {
@@ -56,6 +92,12 @@ export class EditTaskComponent implements OnInit {
     this.taskForm.controls['endDate'].enable();
   }
 
+  getProjectById(Id) {
+    this.projectService.getProjectById(Id).subscribe(proj => {
+      this.selectedProject = proj;
+    });
+  }
+
   getProjectList() {
     this.projectService.getProjects().subscribe(projs => {
       this.projectList = projs;
@@ -69,10 +111,67 @@ export class EditTaskComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.taskForm.value.isParentTask) {
-      this.addTaskAsParent();
+    const isPT = this.taskForm.value.isParentTask;
+    const sD = this.taskForm.value.startDate;
+    const eD = this.taskForm.value.endDate;
+    if (this.taskForm.status === 'INVALID') {
+      alert('Please fill all the fields');
+    } else if (isPT === false && sD === null && eD === null) {
+      alert('Please set Start Date and End Date');
     } else {
-      this.addTaskAsChild();
+      if (this.taskForm.value.isParentTask && !this.wasChild) {
+        // just edit parent
+        const parentTaskObj = {
+          parentTask: this.taskForm.value.task,
+        };
+
+        this.projectService.editParentTask(
+          this.taskToEdit.projectId,
+          this.taskToEdit.parentTask._id,
+          parentTaskObj
+        ).subscribe(() => this.navigateBacktoViewTask());
+
+      } else if (this.taskForm.value.isParentTask && this.wasChild) {
+        // delete child and add parent
+        this.projectService.deleteChildOfParentTask(
+          this.taskToEdit.projectId,
+          this.taskToEdit.parentTask._id,
+          this.taskToEdit.childTask._id).subscribe(() => {
+            this.addTaskAsParent();
+          });
+
+      } else if (!this.taskForm.value.isParentTask && this.wasChild) {
+        // just edit child
+        const childTaskObj = {
+          task: this.taskForm.value.task,
+          priority: this.taskForm.value.priority,
+          startDate: this.taskForm.value.startDate,
+          endDate: this.taskForm.value.endDate,
+          user: null,
+        };
+        if (!this.selectedParentTask || this.taskToEdit.parentTask._id === this.selectedParentTask._id) {
+          this.projectService.editChildOfParentTask(
+            this.taskToEdit.projectId,
+            this.taskToEdit.parentTask._id,
+            this.taskToEdit.childTask._id,
+            childTaskObj
+          ).subscribe(() => this.navigateBacktoViewTask());
+        } else {
+          this.projectService.deleteChildOfParentTask(
+            this.taskToEdit.projectId,
+            this.taskToEdit.parentTask._id,
+            this.taskToEdit.childTask._id).subscribe(() => {
+              this.addTaskAsChild();
+            });
+        }
+
+      } else if (!this.taskForm.value.isParentTask && !this.wasChild) {
+        // delete parent and add child to new parent
+        this.projectService.deleteParentTask(this.taskToEdit.projectId, this.taskToEdit.parentTask._id)
+          .subscribe(() => {
+            this.addTaskAsChild();
+          });
+      }
     }
   }
 
@@ -93,7 +192,7 @@ export class EditTaskComponent implements OnInit {
       priority: this.taskForm.value.priority,
       startDate: this.taskForm.value.startDate,
       endDate: this.taskForm.value.endDate,
-      user: this.selectedUser._id,
+      user: null,
     };
     this.projectService.addChildToParentTask(projectId, parentTaskId, childTaskObj)
       .subscribe(res => this.resetTaskForm());
@@ -121,7 +220,10 @@ export class EditTaskComponent implements OnInit {
       const dialogRef = this.dialog.open(SelectDialogBoxComponent, {
         width: '600px',
         height: '400px',
-        data: { title: 'Select Task', genericList: this.selectedProject.parentTasks, prop: 'parentTask' }
+        data: {
+          title: 'Select Task', genericList: this.selectedProject.parentTasks, prop: 'parentTask',
+          exceptionIdList: this.taskToEdit.parentTask._id
+        }
       });
 
       dialogRef.afterClosed().subscribe(result => {
@@ -151,9 +253,9 @@ export class EditTaskComponent implements OnInit {
           user: result.firstName,
         });
       } else {
-        this.selectedUser = null;
+        this.selectedUser = result.firstName;
         this.taskForm.patchValue({
-          user: null,
+          user: result.firstName,
         });
       }
     });
@@ -179,6 +281,11 @@ export class EditTaskComponent implements OnInit {
       user: '',
     });
     this.enableFields();
+    this.navigateBacktoViewTask();
   }
 
+  navigateBacktoViewTask() {
+    localStorage.clear();
+    this.router.navigate(['/view-task']);
+  }
 }

@@ -60,6 +60,14 @@ export class AddUserComponent implements OnInit {
     });
   }
 
+  onSubmit() {
+    if (this.userForm.status === 'INVALID') {
+      alert('Please fill all the fields');
+    } else {
+      this.isEditMode ? this.editUserInList() : this.addUserToList();
+    }
+  }
+
   resetUserForm() {
     this.userForm.setValue({
       firstName: '',

@@ -27,9 +27,9 @@ export class AddTaskComponent implements OnInit {
       isParentTask: [false],
       priority: [0, Validators.required],
       parentTask: '',
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      user: '',
+      startDate: [null],
+      endDate: [null],
+      user: ['', Validators.required],
     }
   );
 
@@ -69,10 +69,19 @@ export class AddTaskComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.taskForm.value.isParentTask) {
-      this.addTaskAsParent();
+    const isPT = this.taskForm.value.isParentTask;
+    const sD = this.taskForm.value.startDate;
+    const eD = this.taskForm.value.endDate;
+    if (this.taskForm.status === 'INVALID') {
+      alert('Please fill all the fields');
+    } else if (isPT === false && sD === null && eD === null) {
+      alert('Please set Start Date and End Date');
     } else {
-      this.addTaskAsChild();
+      if (this.taskForm.value.isParentTask) {
+        this.addTaskAsParent();
+      } else {
+        this.addTaskAsChild();
+      }
     }
   }
 
@@ -82,7 +91,10 @@ export class AddTaskComponent implements OnInit {
       parentTask: this.taskForm.value.task,
     };
     this.projectService.addParentTask(projectId, parentTaskObj)
-      .subscribe(res => this.resetTaskForm());
+      .subscribe(res => {
+        this.getProjectList();
+        this.resetTaskForm();
+      });
   }
 
   addTaskAsChild() {
@@ -96,7 +108,10 @@ export class AddTaskComponent implements OnInit {
       user: this.selectedUser._id,
     };
     this.projectService.addChildToParentTask(projectId, parentTaskId, childTaskObj)
-      .subscribe(res => this.resetTaskForm());
+      .subscribe(res => {
+        this.getProjectList();
+        this.resetTaskForm();
+      });
   }
 
   openProjectDialog() {
