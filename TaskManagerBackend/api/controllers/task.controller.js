@@ -37,3 +37,20 @@ exports.set_project_parent_childtask = function (req, res) {
         }
     );
 }
+
+exports.update_project_parent_childtask = function (req, res) {
+    projectSchema.findById(req.params.id, function (err, proj) {
+        if (err) console.log(err);
+        proj.parentTasks.forEach(parentTask => {
+            if (parentTask._id === req.params.parentTaskId) {
+                parentTask.childTasks.forEach(childTask => {
+                    if (childTask._id === req.params.childTaskId) {
+                        childTask = req.body;
+                        proj.save();
+                    }
+                })
+            }
+        });
+        res.json(proj);
+    });
+}

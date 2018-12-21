@@ -27,6 +27,6 @@ router.delete('/project/:id', project.delete_project);
 router.post('/project/:id/task', task.set_project_parenttask);
 router.put('/project/:id/task/:parentTaskId', task.update_project_parenttask);
 router.post('/project/:id/task/:parentTaskId', task.set_project_parent_childtask);
-
+router.put('/project/:id/task/:parentTaskId/child/:childTaskId', task.update_project_parent_childtask);
 
 module.exports = router
