@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser')
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/TaskManager', { useNewUrlParser: true });
+mongoose.connect(config.mongodb, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

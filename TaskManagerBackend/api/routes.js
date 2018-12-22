@@ -32,4 +32,5 @@ router.put('/project/:id/task/:parentTaskId/child/:childTaskId', task.update_pro
 router.delete('/project/:id/task/:parentTaskId/child/:childTaskId', task.delete_project_parent_childtask);
 
 router.put('/project/:id/task/:parentTaskId/child/:childTaskId/completed', task.mark_project_task_completed);
+
 module.exports = router

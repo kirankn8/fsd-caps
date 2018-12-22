@@ -2,25 +2,25 @@ pipeline {
     agent any
 
     stages {
-        stage('Build Angular Frontend App') {
+        stage('Build Task Manager Frontend') {
             steps {
-                echo 'Building Angular..'
+                echo 'Building Task Manager Frontend..'
                 bat 'cd ./TaskManagerFrontend/ && npm install && npm run build --prod'
             }
         }
-        stage('Build Node Backend App') {
+        stage('Build Task Manager Backend') {
             steps {
-                echo 'Building Nodejs ..'
+                echo 'Building Task Manager Backend ..'
                 bat 'cd ./TaskManagerBackend/ && npm install'
             }
         }
-        stage('Testing Frontend') {
+        stage('Testing Task Manager Frontend') {
             steps {
-                echo 'Testing Frontend...'
+                echo 'Testing Task Manager Frontend...'
                 bat 'cd ./TaskManagerFrontend/ && npm test --single-run true --watch=false'                
             }
         }
-        stage('Testing Backend') {
+        stage('Testing Task Manager Backend') {
             steps {
                 echo 'Testing Backend...'
                 bat 'cd ./TaskManagerBackend/ && npm test'
@@ -28,7 +28,8 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying the application'
+                echo 'Deploying the application...'
+                bat 'docker-compose up'
             }
         }
     }

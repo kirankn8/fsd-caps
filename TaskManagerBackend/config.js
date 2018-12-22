@@ -1,8 +1,5 @@
 const config = {
-    host: "localhost",
-    user: "root",
-    password: "pass@word1",
-    database: "eMart",
+    mongodb: 'mongodb://mongo:27017/TaskManager',
     serverport: 3000,
 };
 
