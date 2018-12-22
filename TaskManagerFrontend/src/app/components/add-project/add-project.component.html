@@ -18,7 +18,7 @@
   </div>
   <div class="form-inline">
     <div class="form-group">
-      <label for="priority">Priority:</label>
+      <label for="priority">Priority: ({{projectForm.value.priority}})</label>
       <input type="range" formControlName="priority" class="custom-range" value="0" min="0" max="30" step="1" id="priority">
     </div>
   </div>
@@ -65,7 +65,7 @@
           <table class="project-list">
             <tr>
               <td>No. of Tasks: {{project.parentTasks.length}}</td>
-              <td>Completed:</td>
+              <td>Completed: {{ checkIfComplete(project.parentTasks) }}</td>
             </tr>
             <tr>
               <td>Start Date: {{project.startDate | date:'shortDate'}}</td>

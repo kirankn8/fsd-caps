@@ -72,10 +72,14 @@ export class AddProjectComponent implements OnInit {
     const isDD = this.projectForm.value.defaultDate;
     const sD = this.projectForm.value.startDate;
     const eD = this.projectForm.value.endDate;
+    const _sD = new Date(sD);
+    const _eD = new Date(eD);
     if (this.projectForm.status === 'INVALID') {
       alert('Please fill all the fields');
     } else if (isDD === true && sD === null && eD === null) {
       alert('Please set Start Date and End Date');
+    } else if (isDD === true && _sD > _eD) {
+      alert('Start Date should be before End Date');
     } else {
       this.isEditMode ? this.editProject() : this.addProject();
     }
@@ -99,8 +103,8 @@ export class AddProjectComponent implements OnInit {
     const projObj = {
       project: this.projectForm.value.project,
       defaultDate: this.projectForm.value.defaultDate,
-      startDate: this.projectForm.value.startDate ? this.projectForm.value.startDate : new Date().getDate(),
-      endDate: this.projectForm.value.endDate ? this.projectForm.value.endDate : new Date().getDate() + 1,
+      startDate: this.projectForm.value.startDate ? this.projectForm.value.startDate : new Date(),
+      endDate: this.projectForm.value.endDate ? this.projectForm.value.endDate : +new Date() + 24 * 60 * 60 * 1000,
       priority: this.projectForm.value.priority,
       manager: this.selectedManager._id,
     };
@@ -115,8 +119,8 @@ export class AddProjectComponent implements OnInit {
     const projObj = {
       project: this.projectForm.value.project,
       defaultDate: this.projectForm.value.defaultDate,
-      startDate: this.projectForm.value.startDate ? this.projectForm.value.startDate : new Date().getDate(),
-      endDate: this.projectForm.value.endDate ? this.projectForm.value.endDate : new Date().getDate() + 1,
+      startDate: this.projectForm.value.startDate ? this.projectForm.value.startDate : new Date(),
+      endDate: this.projectForm.value.endDate ? this.projectForm.value.endDate : +new Date() + 24 * 60 * 60 * 1000,
       priority: this.projectForm.value.priority,
       manager: this.selectedManager._id,
     };
@@ -169,5 +173,22 @@ export class AddProjectComponent implements OnInit {
     this.editObj = project;
     this.enableDateFields();
     this.selectedManager = project.manager;
+  }
+
+  checkIfComplete(parentTasks) {
+    let parentTasksCompleted = 0;
+    let tasksCompleted = 0;
+    for (const parentTask of parentTasks) {
+      tasksCompleted = 0;
+      for (const childTask of parentTask.childTasks) {
+        if (childTask.status === 'Complete') {
+          tasksCompleted += 1;
+        }
+      }
+      if (tasksCompleted === parentTask.childTasks.length) {
+        parentTasksCompleted += 1;
+      }
+    }
+    return parentTasksCompleted;
   }
 }

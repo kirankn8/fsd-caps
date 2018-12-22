@@ -26,8 +26,6 @@ exports.update_project_parenttask = function (req, res) {
 exports.delete_project_parenttask = function (req, res) {
     projectSchema.findById(req.params.id, function (err, proj) {
         if (err) console.log(err);
-        console.log(req.params.id);
-        console.log(req.params.parentTaskId);
         proj.parentTasks.id(req.params.parentTaskId).remove();
         proj.save(function (err) {
             if (err) console.log(err);
@@ -67,6 +65,18 @@ exports.delete_project_parent_childtask = function (req, res) {
     projectSchema.findById(req.params.id, function (err, proj) {
         if (err) console.log(err);
         proj.parentTasks.id(req.params.parentTaskId).childTasks.id(req.params.childTaskId).remove();
+        proj.save(function (err) {
+            if (err) console.log(err);
+            res.json(proj);
+        });
+    });
+}
+
+exports.mark_project_task_completed = function (req, res) {
+    projectSchema.findById(req.params.id, function (err, proj) {
+        if (err) console.log(err);
+        var childTask = proj.parentTasks.id(req.params.parentTaskId).childTasks.id(req.params.childTaskId);
+        childTask.status = 'Complete';
         proj.save(function (err) {
             if (err) console.log(err);
             res.json(proj);

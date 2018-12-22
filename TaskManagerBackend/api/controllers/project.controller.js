@@ -1,7 +1,7 @@
 const projectSchema = require('../models/project.model');
 
 exports.list_projects = function (req, res) {
-    projectSchema.find({}).populate('manager').exec(function (err, proj) {
+    projectSchema.find({}).populate('manager parentTasks.childTasks.user').exec(function (err, proj) {
         if (err) console.log(err);
         res.json(proj);
     });

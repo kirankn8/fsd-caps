@@ -66,7 +66,7 @@ export class EditTaskComponent implements OnInit {
         parentTask: this.taskToEdit.parentTask.parentTask,
         startDate: this.datepipe.transform(this.taskToEdit.childTask.startDate, 'yyyy-MM-dd'),
         endDate: this.datepipe.transform(this.taskToEdit.childTask.endDate, 'yyyy-MM-dd'),
-        user: null,
+        user: this.taskToEdit.childTask.user ? this.taskToEdit.childTask.user.firstName : null,
       });
     } else {
       this.taskForm.patchValue({
@@ -83,6 +83,7 @@ export class EditTaskComponent implements OnInit {
     this.taskForm.controls['parentTask'].disable();
     this.taskForm.controls['startDate'].disable();
     this.taskForm.controls['endDate'].disable();
+    this.taskForm.controls['user'].disable();
   }
 
   enableFields() {
@@ -90,6 +91,7 @@ export class EditTaskComponent implements OnInit {
     this.taskForm.controls['parentTask'].enable();
     this.taskForm.controls['startDate'].enable();
     this.taskForm.controls['endDate'].enable();
+    this.taskForm.controls['user'].enable();
   }
 
   getProjectById(Id) {
@@ -114,10 +116,14 @@ export class EditTaskComponent implements OnInit {
     const isPT = this.taskForm.value.isParentTask;
     const sD = this.taskForm.value.startDate;
     const eD = this.taskForm.value.endDate;
+    const _sD = new Date(sD);
+    const _eD = new Date(eD);
     if (this.taskForm.status === 'INVALID') {
       alert('Please fill all the fields');
     } else if (isPT === false && sD === null && eD === null) {
       alert('Please set Start Date and End Date');
+    } else if (isPT === false && _sD > _eD) {
+      alert('Start Date should be before End Date');
     } else {
       if (this.taskForm.value.isParentTask && !this.wasChild) {
         // just edit parent
@@ -129,7 +135,7 @@ export class EditTaskComponent implements OnInit {
           this.taskToEdit.projectId,
           this.taskToEdit.parentTask._id,
           parentTaskObj
-        ).subscribe(() => this.navigateBacktoViewTask());
+        ).subscribe(() => { alert('Successfully updated task'); this.navigateBacktoViewTask(); });
 
       } else if (this.taskForm.value.isParentTask && this.wasChild) {
         // delete child and add parent
@@ -147,7 +153,7 @@ export class EditTaskComponent implements OnInit {
           priority: this.taskForm.value.priority,
           startDate: this.taskForm.value.startDate,
           endDate: this.taskForm.value.endDate,
-          user: null,
+          user: this.selectedUser ? this.selectedUser._id : this.taskToEdit.childTask.user ? this.taskToEdit.childTask.user._id : null,
         };
         if (!this.selectedParentTask || this.taskToEdit.parentTask._id === this.selectedParentTask._id) {
           this.projectService.editChildOfParentTask(
@@ -155,7 +161,7 @@ export class EditTaskComponent implements OnInit {
             this.taskToEdit.parentTask._id,
             this.taskToEdit.childTask._id,
             childTaskObj
-          ).subscribe(() => this.navigateBacktoViewTask());
+          ).subscribe(() => { alert('Successfully updated task'); this.navigateBacktoViewTask(); });
         } else {
           this.projectService.deleteChildOfParentTask(
             this.taskToEdit.projectId,
@@ -181,7 +187,7 @@ export class EditTaskComponent implements OnInit {
       parentTask: this.taskForm.value.task,
     };
     this.projectService.addParentTask(projectId, parentTaskObj)
-      .subscribe(res => this.resetTaskForm());
+      .subscribe(res => { alert('Successfully updated task'); this.resetTaskForm(); });
   }
 
   addTaskAsChild() {
@@ -192,10 +198,10 @@ export class EditTaskComponent implements OnInit {
       priority: this.taskForm.value.priority,
       startDate: this.taskForm.value.startDate,
       endDate: this.taskForm.value.endDate,
-      user: null,
+      user: this.selectedUser ? this.selectedUser._id : this.taskToEdit.childTask.user._id,
     };
     this.projectService.addChildToParentTask(projectId, parentTaskId, childTaskObj)
-      .subscribe(res => this.resetTaskForm());
+      .subscribe(res => { alert('Successfully updated task'); this.resetTaskForm(); });
   }
 
   openProjectDialog() {
@@ -249,11 +255,6 @@ export class EditTaskComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.selectedUser = result;
-        this.taskForm.patchValue({
-          user: result.firstName,
-        });
-      } else {
-        this.selectedUser = result.firstName;
         this.taskForm.patchValue({
           user: result.firstName,
         });

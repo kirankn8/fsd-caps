@@ -56,4 +56,8 @@ export class ProjectService {
   deleteChildOfParentTask(id, parentTaskId, childTaskId) {
     return this.http.delete<any>(`/api/project/${id}/task/${parentTaskId}/child/${childTaskId}`);
   }
+
+  complteChildOfParentTask(id, parentTaskId, childTaskId) {
+    return this.http.put<any>(`/api/project/${id}/task/${parentTaskId}/child/${childTaskId}/completed`, {}, httpOptions);
+  }
 }

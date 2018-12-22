@@ -8,6 +8,12 @@ label {
     margin-bottom: 10px;
 }
 
+
+input:read-only { 
+  background-color: white;
+}
+
 input:disabled {
+  background-color: #e9ecef;
   cursor: no-drop;
 }

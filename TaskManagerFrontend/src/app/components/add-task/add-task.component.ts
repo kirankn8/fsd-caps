@@ -29,7 +29,7 @@ export class AddTaskComponent implements OnInit {
       parentTask: '',
       startDate: [null],
       endDate: [null],
-      user: ['', Validators.required],
+      user: [''],
     }
   );
 
@@ -47,6 +47,7 @@ export class AddTaskComponent implements OnInit {
     this.taskForm.controls['parentTask'].disable();
     this.taskForm.controls['startDate'].disable();
     this.taskForm.controls['endDate'].disable();
+    this.taskForm.controls['user'].disable();
   }
 
   enableFields() {
@@ -54,6 +55,7 @@ export class AddTaskComponent implements OnInit {
     this.taskForm.controls['parentTask'].enable();
     this.taskForm.controls['startDate'].enable();
     this.taskForm.controls['endDate'].enable();
+    this.taskForm.controls['user'].enable();
   }
 
   getProjectList() {
@@ -72,10 +74,14 @@ export class AddTaskComponent implements OnInit {
     const isPT = this.taskForm.value.isParentTask;
     const sD = this.taskForm.value.startDate;
     const eD = this.taskForm.value.endDate;
+    const _sD = new Date(sD);
+    const _eD = new Date(eD);
     if (this.taskForm.status === 'INVALID') {
       alert('Please fill all the fields');
     } else if (isPT === false && sD === null && eD === null) {
       alert('Please set Start Date and End Date');
+    } else if (isPT === false && _sD > _eD) {
+      alert('Start Date should be before End Date');
     } else {
       if (this.taskForm.value.isParentTask) {
         this.addTaskAsParent();
@@ -92,6 +98,7 @@ export class AddTaskComponent implements OnInit {
     };
     this.projectService.addParentTask(projectId, parentTaskObj)
       .subscribe(res => {
+        alert('Successfully added task');
         this.getProjectList();
         this.resetTaskForm();
       });
@@ -105,10 +112,11 @@ export class AddTaskComponent implements OnInit {
       priority: this.taskForm.value.priority,
       startDate: this.taskForm.value.startDate,
       endDate: this.taskForm.value.endDate,
-      user: this.selectedUser._id,
+      user: this.selectedUser ? this.selectedUser._id : null,
     };
     this.projectService.addChildToParentTask(projectId, parentTaskId, childTaskObj)
       .subscribe(res => {
+        alert('Successfully added task');
         this.getProjectList();
         this.resetTaskForm();
       });

@@ -19,6 +19,7 @@ export class ViewTaskComponent implements OnInit {
 
   ngOnInit() {
     this.getProjectList();
+    localStorage.clear();
   }
 
   onClickSort(key) {
@@ -45,7 +46,6 @@ export class ViewTaskComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.selectedProject = result;
-        console.log(result);
       }
     });
   }
@@ -59,5 +59,28 @@ export class ViewTaskComponent implements OnInit {
     };
     localStorage.setItem('taskToEdit', JSON.stringify(projectDetails));
     this.router.navigate(['/edit-task']);
+  }
+
+  markParentComplete(parentTask) {
+    for (const childTask of parentTask.childTasks) {
+      this.markChildComplete(parentTask._id, childTask._id);
+    }
+  }
+
+  markChildComplete(parentTaskId, childTaskId) {
+    this.projectService.complteChildOfParentTask(
+      this.selectedProject._id,
+      parentTaskId,
+      childTaskId
+    ).subscribe((res) => { this.selectedProject = res; });
+  }
+
+  checkIfComplete(parentTask) {
+    for (const childTask of parentTask.childTasks) {
+      if (childTask.status !== 'Complete') {
+        return false;
+      }
+    }
+    return true;
   }
 }
