@@ -1,7 +1,6 @@
 version: '3'
 services:
   frontend: 
-    hostname: localhost
     container_name: taskmanager-frontend
     restart: always
     build: ./TaskManagerFrontend/
@@ -22,10 +21,10 @@ services:
   mongo:
     image: mongo
     container_name: "mongodb"
+    ports:
+      - "27017:27017"
     # environment:
     #   - MONGO_DATA_DIR=/data/db
     #   - MONGO_LOG_DIR=/dev/null
     # volumes:
     #   - ./data/db:/data/db
-    ports:
-      - "27017:27017"
