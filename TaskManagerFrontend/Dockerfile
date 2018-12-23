@@ -3,8 +3,8 @@ FROM node:10 as node
 
 WORKDIR /usr/src/frontend
 
-# COPY package*.json ./
-# RUN npm install
+COPY package*.json ./
+RUN npm install
 
 # Bundle app source
 COPY . .
