@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser')
 
 const app = express();
 
+console.log('Connecting with MongoDB: ', config.mongodb);
 mongoose.connect(config.mongodb, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;

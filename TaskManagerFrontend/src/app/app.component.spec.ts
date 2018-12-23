@@ -32,4 +32,17 @@ describe('AppComponent', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h3').textContent).toContain('Project Manager');
   });
+
+  it('check all navbar link', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    const routerLinks = compiled.querySelectorAll('a');
+    expect(routerLinks.length).toBe(4, 'should have 4 routerLinks');
+    expect(routerLinks[0].attributes.routerlink.value).toBe('/add-project');
+    expect(routerLinks[1].attributes.routerlink.value).toBe('/add-task');
+    expect(routerLinks[2].attributes.routerlink.value).toBe('/add-user');
+    expect(routerLinks[3].attributes.routerlink.value).toBe('/view-task');
+  }));
+
 });

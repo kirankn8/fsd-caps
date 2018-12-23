@@ -13,4 +13,4 @@ RUN npm install --only=production
 COPY . .
 
 EXPOSE 3000
-CMD [ "npm", "start"]
+CMD [ "pm2", "start", "index.js"]
