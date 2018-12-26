@@ -74,6 +74,7 @@ export class AddTaskComponent implements OnInit {
     const isPT = this.taskForm.value.isParentTask;
     const sD = this.taskForm.value.startDate;
     const eD = this.taskForm.value.endDate;
+    const userField = this.taskForm.value.user;
     const _sD = new Date(sD);
     const _eD = new Date(eD);
     if (this.taskForm.status === 'INVALID') {
@@ -82,6 +83,8 @@ export class AddTaskComponent implements OnInit {
       alert('Please set Start Date and End Date');
     } else if (isPT === false && _sD > _eD) {
       alert('Start Date should be before End Date');
+    } else if (isPT === false && userField === '') {
+      alert('Please fill all the fields');
     } else {
       if (this.taskForm.value.isParentTask) {
         this.addTaskAsParent();

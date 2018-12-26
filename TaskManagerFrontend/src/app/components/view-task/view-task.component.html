@@ -1,3 +1,7 @@
+Note: On clicking "End Task" for a parent task, its child tasks will be ended automatically. The completion of a parent
+task purely depends on its child task completion. If a parent task does not have any child tasks, then the parent task
+"End Task" button is disabled.
+<br><br>
 <form class="form-inline">
   <div class="form-group">
     <label for="project">Project:</label>
@@ -45,9 +49,11 @@
       <td>-</td>
       <td>-</td>
       <td>-</td>
-      <td><button type="button" class="btn btn-primary" (click)="taskEdit(parentTask)" [disabled]="checkIfComplete(parentTask)">Edit</button></td>
+      <td><button type="button" class="btn btn-primary" (click)="taskEdit(parentTask)">Edit</button></td>
       <td><button type="button" class="btn btn-primary" (click)="markParentComplete(parentTask)" [disabled]="checkIfComplete(parentTask)">End
-          Task</button></td>
+          Task
+        </button>
+      </td>
     </tr>
     <ng-container *ngFor="let childTask of parentTask?.childTasks | search:'':sortBy">
       <tr>

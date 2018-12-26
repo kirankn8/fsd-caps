@@ -15,7 +15,6 @@ exports.get_user = function (req, res) {
 }
 
 exports.save_user = function (req, res) {
-    if (req.body === null) { res.status(400).json({ msg: 'Incorrect fields in the request' }); }
     var userInstance = new userSchema(req.body);
     userInstance.save(function (err, user) {
         if (err) { console.log(err); res.status(500).json({ msg: 'Something broke!', err: err }); }
@@ -24,7 +23,6 @@ exports.save_user = function (req, res) {
 }
 
 exports.update_user = function (req, res) {
-    if (req.body === null) { res.status(400).json({ msg: 'Incorrect fields in the request' }); }
     userSchema.findByIdAndUpdate(req.params.id, req.body, { new: true },
         (err, user) => {
             if (err) { console.log(err); res.status(500).json({ msg: 'Something broke!', err: err }); }

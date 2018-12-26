@@ -19,11 +19,11 @@
   </div>
   <br>
   <div>
-    <button type="submit" class="btn btn-primary">
+    <button id="add-edit-user-btn" type="submit" class="btn btn-primary">
       {{isEditMode? 'Edit':'Add'}}
     </button>
     &nbsp;
-    <button type="button" class="btn btn-dark" (click)="resetUserForm()">Reset</button>
+    <button id="reset-btn" type="button" class="btn btn-dark" (click)="resetUserForm()">Reset</button>
   </div>
 </form>
 <div class="dropdown-divider"></div>
@@ -36,9 +36,9 @@
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <div>
     Sort:
-    <button type="button" class="btn btn-secondary" (click)="onClickSort('firstName')">First Name</button>&nbsp;
-    <button type="button" class="btn btn-secondary" (click)="onClickSort('lastName')">Last Name</button>&nbsp;
-    <button type="button" class="btn btn-secondary" (click)="onClickSort('employeeId')">Id</button>&nbsp;
+    <button id="sort-fn" type="button" class="btn btn-secondary" (click)="onClickSort('firstName')">First Name</button>&nbsp;
+    <button id="sort-ln" type="button" class="btn btn-secondary" (click)="onClickSort('lastName')">Last Name</button>&nbsp;
+    <button id="sort-id" type="button" class="btn btn-secondary" (click)="onClickSort('employeeId')">Id</button>&nbsp;
   </div>
 </div>
 <hr class="dotted-hr" />
