@@ -4,7 +4,7 @@ import { SelectDialogBoxComponent } from './select-dialog-box.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExceptionPipe } from 'src/app/pipes/exception.pipe';
 import { SearchPipe } from 'src/app/pipes/search.pipe';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { EditTaskComponent } from '../edit-task/edit-task.component';
@@ -13,6 +13,7 @@ import { AddUserComponent } from '../add-user/add-user.component';
 import { AddTaskComponent } from '../add-task/add-task.component';
 import { AddProjectComponent } from '../add-project/add-project.component';
 import { AppComponent } from 'src/app/app.component';
+import { By } from '@angular/platform-browser';
 
 describe('SelectDialogBoxComponent', () => {
   let component: SelectDialogBoxComponent;

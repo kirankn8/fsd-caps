@@ -35,6 +35,12 @@ module.exports = function (config) {
     singleRun: false,
     files: [
       '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-    ]
+    ],
+    proxies: {
+      '/api/': {
+        'target': 'http://localhost:3000/api',
+        'changeOrigin': true
+      }
+    }
   });
 };

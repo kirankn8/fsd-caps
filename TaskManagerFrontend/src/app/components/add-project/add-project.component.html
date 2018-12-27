@@ -52,7 +52,7 @@
   <button type="button" class="btn btn-secondary" (click)="onClickSort('startDate')">Start Date</button>&nbsp;
   <button type="button" class="btn btn-secondary" (click)="onClickSort('endDate')">End Date</button>&nbsp;
   <button type="button" class="btn btn-secondary" (click)="onClickSort('priority')">Priority</button>&nbsp;
-  <button type="button" class="btn btn-secondary" (click)="onClickSort('status')">Completed</button>&nbsp;
+  <button type="button" class="btn btn-secondary" (click)="onClickSort('completed')">Completed</button>&nbsp;
 </div>
 <div *ngFor="let project of projectList | search:searchValue:sortBy">
   <div class="row">
@@ -65,7 +65,7 @@
           <table class="project-list">
             <tr>
               <td>No. of Tasks: {{project.parentTasks.length}}</td>
-              <td>Completed: {{ checkIfComplete(project.parentTasks) }}</td>
+              <td>Completed: {{ project.completed }}</td>
             </tr>
             <tr>
               <td>Start Date: {{project.startDate | date:'shortDate'}}</td>

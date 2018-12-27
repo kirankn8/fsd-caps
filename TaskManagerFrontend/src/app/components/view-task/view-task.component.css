@@ -5,3 +5,12 @@ table {
 *:disabled {
     cursor: no-drop;
 }
+
+input:read-only { 
+  background-color: white;
+}
+
+input:disabled {
+  background-color: #e9ecef;
+  cursor: no-drop;
+}

@@ -96,6 +96,9 @@ export class AddProjectComponent implements OnInit {
   getProjectList() {
     this.projectService.getProjects().subscribe(projs => {
       this.projectList = projs;
+      for (const project of this.projectList) {
+        project['completed'] = this.checkIfComplete(project.parentTasks);
+      }
     });
   }
 
