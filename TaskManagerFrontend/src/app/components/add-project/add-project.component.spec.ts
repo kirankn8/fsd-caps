@@ -71,4 +71,8 @@ describe('AddProjectComponent', () => {
     expect(endDateInput.disabled).toBe(true);
   });
 
+  it('fetch project', () => {
+    component.getProjectList();
+  });
+
 });
