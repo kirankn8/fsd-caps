@@ -18,6 +18,7 @@ Desktop.ini
 node_modules
 *.log
 *.gz
+.nyc_output
 
 
 # Coveralls

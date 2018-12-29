@@ -15,4 +15,4 @@ COPY . .
 RUN npm run build
 
 EXPOSE 3000
-CMD [ "pm2", "start", "dist/bundle.js"]
+CMD [ "nodemon", "dist/bundle.js"]
