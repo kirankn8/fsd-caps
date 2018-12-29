@@ -95,9 +95,9 @@ describe('AddUserComponent', () => {
     sortIdBtn.click();
   });
 
-  it('edit functionality', () => {
-    const editBtn = fixture.debugElement.queryAll(By.css('.user-btn'));
-    console.log(editBtn);
+  // it('edit functionality', () => {
+  //   const editBtn = fixture.debugElement.queryAll(By.css('.user-btn'));
+  //   console.log(editBtn);
     // if (editBtn.length > 0) {
     //   editBtn[0].nativeElement.click();
     //   expect(form.firstName.value.length).toBeGreaterThan(0);
@@ -107,6 +107,6 @@ describe('AddUserComponent', () => {
     //   const editSubmitBtn = form.addBtn;
     //   editSubmitBtn.click();
     // }
-  });
+  // });
 
 });
