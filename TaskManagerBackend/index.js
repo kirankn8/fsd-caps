@@ -5,17 +5,23 @@ const cors = require('cors')
 const mongoose = require('mongoose');
 const config = require('./config');
 const session = require('express-session');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const logger = require('./logger');
+const morgan = require('morgan');
+const fs = require('fs');
+const path = require('path');
+// create a write stream (in append mode)
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
 
 const app = express();
 
-console.log('Connecting with MongoDB: ', config.mongodb);
+logger.info('Connecting with MongoDB: ' + config.mongodb);
 mongoose.connect(config.mongodb, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
-    console.log('MongoDB connection succesfully established')
+    logger.info('MongoDB connection succesfully established')
 });
 
 //  Middlewares
@@ -25,6 +31,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+app.use(morgan('common', { stream: accessLogStream }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser('session_cookie_secret'));
@@ -39,7 +46,7 @@ app.use(cors({
 app.use('/api', routes);
 
 app.listen(config.serverport, () => {
-    console.log('Task Manager Backend is listening on port: ' + config.serverport)
+    logger.info('Task Manager Backend is listening on port: ' + config.serverport)
 });
 
 module.exports = app;
