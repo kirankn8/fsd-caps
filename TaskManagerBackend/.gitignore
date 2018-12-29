@@ -26,5 +26,5 @@ coverage
 # Benchmarking
 benchmarks/graphs
 
-# Configuration
-# config.js
+# Distribution
+dist
