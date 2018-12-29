@@ -11,7 +11,7 @@ pipeline {
         stage('Build Task Manager Backend') {
             steps {
                 echo 'Building Task Manager Backend ..'
-                bat 'cd ./TaskManagerBackend/ && npm install'
+                bat 'cd ./TaskManagerBackend/ && npm install --no-optional'
             }
         }
         stage('Testing Task Manager Frontend') {
